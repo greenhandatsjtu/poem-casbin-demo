@@ -7,7 +7,7 @@ Demo to integrate poem with casbin-rs using poem-casbin middleware
 
 [Poem](https://github.com/poem-web/poem) is a full-featured and easy-to-use web framework with the Rust programming language.
 
-In this tutorial, we will integrate poem with casbin-rs using [poem-casbin](https://github.com/casbin-rs/poem-casbin).
+In this tutorial, we will integrate casbin-rs with poem web services using [poem-casbin](https://github.com/casbin-rs/poem-casbin) middleware.
 
 ## Write a hello-world service with poem
 
@@ -65,7 +65,7 @@ Let’s use `curl` to test our service:
 
 Note that casbin-poem is an authorization middleware, not an authentication middleware. Casbin only takes charge of permission control, so we need to implement an authentication middleware to identify user.
 
-In this part, we will inegrate our service with a basic auth middleware.
+In this part, we will integrate a basic auth middleware with our service.
 
 To start with, add following dependency to `Cargo.toml`:
 
@@ -119,9 +119,9 @@ impl<E: Endpoint> Endpoint for BasicAuthEndpoint<E> {
 }
 ```
 
-In this mod, we implement a basic auth middleware, for simplicity, here we don’t verify username and password, instead we just insert `CasbinVals` with provided username into `Extension`,so that poem-casbin middleware can extract identity information. If the request doesn’t have basic auth, then the middleware will return 401 Unauthorized.
+In this mod, we implement a basic auth middleware, for simplicity, here we don’t verify username and password, instead we just insert `CasbinVals` with provided username into `Extension`, so that poem-casbin middleware can extract identity information. If the request doesn’t have basic auth, then the middleware will return 401 Unauthorized.
 
-Then let’s integrate our service with basic auth middleware. Firstly, add following code to `main.rs`:
+Then let’s integrate this basic auth middleware with our service. Firstly, add following code to `main.rs`:
 
 ```rust
 mod auth;
@@ -166,7 +166,7 @@ Now we can get response as normal. It seems that our basic auth middleware works
 
 ## Integrate with poem-casbin middleware
 
-In the last part, we will integrate our service with poem-casbin middleware.
+In the last part, we will integrate poem-casbin middleware with our service.
 
 First, we need to provide conf and policy files under the project root directory.
 
@@ -247,7 +247,7 @@ let app = Route::new()
 
 Here we first read conf and policy, then create `casbin_middleware` and change `matching_fn` to `key_match` to match wildcard path (like `/:id`). Lastly, we wrap all endpoints with `casbin_middleware`.
 
-That’s all the work we have to do to integrate our service with poem-casbin middleware, quite simple, right?
+That’s all the work we have to do to integrate poem-casbin middleware with our service, quite simple, right?
 
 Again, let’s use `curl` to test our service:
 
@@ -265,4 +265,4 @@ Everything is fine when both users send requests to the endpoints that they can 
 
 ## Summary
 
-In this tutorial, we write a hello-world web service using poem, then integrate it with basic auth and casbin-poem middleware. It’s a quite simple project with only ~100 LOC, its code can be found at this repository: https://github.com/greenhandatsjtu/poem-casbin-demo
+In this tutorial, we write a hello-world web service using poem, then integrate a basic auth and casbin-poem middleware into it. It’s a quite simple project with only ~100 LOC, its code can be found at this repository: https://github.com/greenhandatsjtu/poem-casbin-demo
