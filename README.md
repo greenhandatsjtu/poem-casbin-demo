@@ -1,5 +1,5 @@
 # poem-casbin-demo
-Demo to integrate poem with casbin-rs using poem-casbin middleware
+Demo to integrate casbin-rs with poem web services using poem-casbin middleware
 
 ## Introduction
 
